@@ -22,6 +22,14 @@ describe GildedRose do
       expect(items[0].sell_in).to eq(-1)
       expect(items[0].quality).to eq(18)
     end
+
+    it "will never decrease quality below 0" do
+      items = [Item.new(name="+5 Dexterity Vest", sell_in=0, quality=0)]
+      GildedRose.new(items).update_quality
+      expect(items[0].sell_in).to eq(-1)
+      expect(items[0].quality).to eq(0)
+    end
+
   
   end
 
