@@ -7,13 +7,15 @@ class GildedRose
       {
       name: "+5 Dexterity Vest",
       sell_in_adjustment: 1,
-      quality_adjustment: 1
+      quality_adjustment: 1,
+      expired_quality_adjustment: 2
       },
     
       {
       name: "Elixir of the Mongoose",
       sell_in_adjustment: 1,
-      quality_adjustment: 1
+      quality_adjustment: 1,
+      expired_quality_adjustment: 2
       }
     ]
   end
@@ -22,8 +24,13 @@ class GildedRose
     @items.map do |item|
       @item_properties.each do |property|
         if item.name == property[:name]
-          item.sell_in -= property[:sell_in_adjustment]
-          item.quality -= property[:quality_adjustment]
+          if item.sell_in <= 0
+            item.quality -= property[:expired_quality_adjustment]
+            item.sell_in -= property[:sell_in_adjustment]
+          else 
+            item.sell_in -= property[:sell_in_adjustment]
+            item.quality -= property[:quality_adjustment]
+          end
         end
       end
     end
