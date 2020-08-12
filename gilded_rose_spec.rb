@@ -30,6 +30,14 @@ describe GildedRose do
       expect(items[0].quality).to eq(0)
     end
 
+    it "will never increase an item's quality above 50" do
+      items = [Item.new(name="Aged Brie", sell_in=-20, quality=50)]
+      GildedRose.new(items).update_quality
+      expect(items[0].sell_in).to eq(-21)
+      expect(items[0].quality).to eq(50)
+    end
+
+
     it "will not decrease quality or sell_in for Sulfuras, Hand of Ragnaros" do
       items = [Item.new(name="Sulfuras, Hand of Ragnaros", sell_in=10, quality=10)]
       GildedRose.new(items).update_quality
@@ -44,6 +52,12 @@ describe GildedRose do
       expect(items[0].quality).to eq(11)
     end
 
+    it "will increase the quality of Backstage passes to a TAFKAL80ETC concert by 2 when 10 days or less until sell_in date" do
+      items = [Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=10)]
+      GildedRose.new(items).update_quality
+      expect(items[0].sell_in).to eq(9)
+      expect(items[0].quality).to eq(12)
+    end
   end
 
 end
