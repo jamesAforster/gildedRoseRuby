@@ -9,7 +9,7 @@ describe GildedRose do
       expect(items[0].name).to eq "foo"
     end
 
-    it "will correctly update standard items with more than 10 days left before expiry" do
+    it "will correctly update standard items before their expiry date" do
       items = [Item.new(name="+5 Dexterity Vest", sell_in=10, quality=20)]
       GildedRose.new(items).update_quality
       expect(items[0].sell_in).to eq(9)
@@ -28,6 +28,13 @@ describe GildedRose do
       GildedRose.new(items).update_quality
       expect(items[0].sell_in).to eq(-1)
       expect(items[0].quality).to eq(0)
+    end
+
+    it "will not decrease quality or sell_in for Sulfuras, Hand of Ragnaros" do
+      items = [Item.new(name="Sulfuras, Hand of Ragnaros", sell_in=10, quality=10)]
+      GildedRose.new(items).update_quality
+      expect(items[0].sell_in).to eq(10)
+      expect(items[0].quality).to eq(10)
     end
 
   
