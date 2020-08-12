@@ -37,7 +37,13 @@ describe GildedRose do
       expect(items[0].quality).to eq(10)
     end
 
-  
+    it "will increase the quality of Aged Brie the older that it gets" do
+      items = [Item.new(name="Aged Brie", sell_in=10, quality=10)]
+      GildedRose.new(items).update_quality
+      expect(items[0].sell_in).to eq(9)
+      expect(items[0].quality).to eq(11)
+    end
+
   end
 
 end
