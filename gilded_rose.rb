@@ -2,51 +2,28 @@ class GildedRose
 
   def initialize(items)
     @items = items
+
+    @item_properties = [
+      {
+      name: "+5 Dexterity Vest",
+      sell_in_adjustment: 1,
+      quality_adjustment: 1
+      },
+    
+      {
+      name: "Elixir of the Mongoose",
+      sell_in_adjustment: 1,
+      quality_adjustment: 1
+      }
+    ]
   end
 
   def update_quality()
-    @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
-        end
-      else
-        if item.quality < 50
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-          end
-        end
-      end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-          end
+    @items.map do |item|
+      @item_properties.each do |property|
+        if item.name == property[:name]
+          item.sell_in -= property[:sell_in_adjustment]
+          item.quality -= property[:quality_adjustment]
         end
       end
     end
